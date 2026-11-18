@@ -1,5 +1,6 @@
 {
   "strings": {},
+  "config": {"packHint": 10},
   "colors": {"bg": "#F3EEE9", "ink": "#6B3F2A", "card": "#FBF7F3", "red": "#E0453A", "green": "#3AA655", "gold": "#E8A400", "tiles": ["#EC7A6F", "#F5A25D", "#ECC94B", "#8FCF7A", "#5CC1C4", "#6A93D6", "#A487D6", "#F3A6C4", "#B07D5B", "#B8C6D1"]},
   "tutorial": [
     {"h":"دقّتين 👆👆 ","hl":"على المربع الأخضر","p":"كذا تحط العتوي في مكانه","cells":[2],"cat":true},
