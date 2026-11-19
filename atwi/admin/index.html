@@ -75,6 +75,8 @@ const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) 
 let board = localStorage.getItem('board') || 'players2';
 let data = { players: [], players2: [] }, emails = {}, q = '';
 let unsub = [];
+let stats = null;
+fetch('stats.json?v=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((j) => { stats = j; if (auth.currentUser) render(); }).catch(() => {});
 
 $('#out').onclick = () => signOut(auth);
 
@@ -119,6 +121,12 @@ function render() {
 
   const cards = el('div', 'cards');
   const card = (l, v, s) => { const c = el('div', 'card'); c.append(el('div', 'l', l), el('div', 'v', String(v)), el('div', 's', s || '')); return c; };
+  if (stats) {
+    const ios = Number(stats.ios || 0), and = Number(stats.android || 0);
+    const dl = card('حمّلوا اللعبة 📲', ios + and, 'آيفون ' + ios + ' · أندرويد ' + and + (stats.asOf ? ' — لين ' + stats.asOf : ''));
+    dl.style.gridColumn = '1 / -1';
+    cards.append(dl);
+  }
   cards.append(
     card('سجّلوا دخول', list.length, Object.keys(emails).length ? 'إيميلات محفوظة: ' + Object.keys(emails).length : ''),
     card('لعبوا اليوم', active, ''),
