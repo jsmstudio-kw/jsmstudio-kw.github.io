@@ -133,7 +133,8 @@ function render() {
   const isToday = (p) => p.updated && day(p.updated) === today;
   const active = list.filter(isToday).length;
   const top = list[0];
-  const last = list.reduce((a, p) => (p.updated && (!a || p.updated > a) ? p.updated : a), null);
+  const lastP = list.reduce((a, p) => (p.updated && (!a || p.updated > a.updated) ? p : a), null);
+  const last = lastP?.updated || null;
   const m = $('#app'); m.replaceChildren();
 
   // downloads
@@ -159,7 +160,7 @@ function render() {
     tile('var(--blue)', '👤', 'سجّلوا دخول', list.length, nEm ? nEm + ' إيميل محفوظ' : ''),
     tile('var(--green)', '🔥', 'لعبوا اليوم', active, ''),
     tile('var(--gold)', '🏆', 'أعلى مرحلة', top ? top.best : '—', top ? top.name : ''),
-    tile('var(--violet)', '⏱️', 'آخر واحد لعب', last ? ago(last) : '—', '')
+    tile('var(--violet)', '⏱️', 'آخر واحد لعب', lastP ? lastP.name : '—', last ? ago(last) : '')
   );
 
   // numbers on top, players under them
