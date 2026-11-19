@@ -67,7 +67,7 @@ const app = initializeApp({
   messagingSenderId: '1007870140303',
   appId: '1:1007870140303:web:a0b2a6124d5d43eb6435fa'
 });
-const ADMIN = 'Qq5Crr1yT5XxX456REtLDxcEDd82';
+const ADMIN_EMAIL = 'jsmstore.kw@gmail.com';
 const auth = getAuth(app), db = getFirestore(app);
 const $ = (s) => document.querySelector(s);
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
@@ -192,7 +192,7 @@ onAuthStateChanged(auth, (u) => {
   unsub.forEach((x) => x()); unsub = [];
   $('#out').hidden = !u;
   if (!u) return showLogin();
-  if (u.uid !== ADMIN) { signOut(auth); return showLogin('هذا الحساب مو مسموح له. ادخل بـ jaberalmarri.kw@gmail.com'); }
+  if ((u.email || '').toLowerCase() !== ADMIN_EMAIL) { signOut(auth); return showLogin('هذا الحساب مو مسموح له. ادخل بـ jsmstore.kw@gmail.com'); }
   listen();
 });
 </script>
