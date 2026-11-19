@@ -1,0 +1,14 @@
+{
+  "name": "عتوي أدمن",
+  "short_name": "عتوي أدمن",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "ar",
+  "background_color": "#F6EFE7",
+  "theme_color": "#E8944A",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}
