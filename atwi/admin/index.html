@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#E8944A">
+<title>عتوي أدمن</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<style>
+  :root{--bg:#F6EFE7;--card:#FFFFFF;--ink:#3B2416;--muted:#8A7364;--line:#EADCCD;--org:#E8944A;--green:#2E9E57;--red:#D9473B}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
+  header{background:linear-gradient(135deg,#F6B26B,#E8944A);color:#fff;padding:calc(env(safe-area-inset-top) + 16px) 16px 18px;display:flex;align-items:center;gap:12px}
+  header img{width:44px;height:44px;border-radius:12px}
+  header h1{margin:0;font-size:22px}
+  header .sp{flex:1}
+  header button{background:rgba(255,255,255,.25);color:#fff;border:0;border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px}
+  main{padding:14px;max-width:760px;margin:0 auto}
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+  .card{background:var(--card);border-radius:16px;padding:14px;box-shadow:0 1px 0 var(--line)}
+  .card .l{color:var(--muted);font-size:13px}
+  .card .v{font-size:30px;font-weight:800;margin-top:4px}
+  .card .s{color:var(--muted);font-size:12px;margin-top:2px}
+  .seg{display:flex;background:#EADCCD;border-radius:999px;padding:4px;margin:4px 0 12px}
+  .seg button{flex:1;border:0;background:transparent;padding:9px;border-radius:999px;font-weight:700;color:var(--muted);font-size:14px}
+  .seg button.on{background:#fff;color:var(--ink)}
+  .row{background:var(--card);border-radius:14px;padding:12px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+  .rk{width:34px;text-align:center;font-weight:800;font-size:18px}
+  .who{flex:1;min-width:0}
+  .who .n{font-weight:800;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .who .e{color:var(--muted);font-size:12px;direction:ltr;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .who .t{color:var(--muted);font-size:12px}
+  .lv{text-align:center}
+  .lv .v{font-weight:800;font-size:20px}
+  .lv .l{color:var(--muted);font-size:11px}
+  .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-inline-start:6px;vertical-align:middle}
+  .center{text-align:center;padding:40px 16px}
+  .big{background:var(--ink);color:#fff;border:0;border-radius:999px;padding:14px 28px;font-weight:800;font-size:17px}
+  .links{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0}
+  .links a{background:var(--card);border-radius:14px;padding:12px;text-align:center;color:var(--ink);text-decoration:none;font-weight:700;font-size:14px}
+  .muted{color:var(--muted);font-size:13px}
+  .err{color:var(--red);font-weight:700}
+  input.q{width:100%;border:1px solid var(--line);border-radius:12px;padding:11px 12px;font-size:15px;margin-bottom:10px;background:#fff}
+</style>
+</head>
+<body>
+<header>
+  <img src="icon.svg" alt="">
+  <h1>عتوي أدمن</h1>
+  <div class="sp"></div>
+  <button id="out" hidden>خروج</button>
+</header>
+<main id="app"><div class="center muted">يحمّل…</div></main>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+import { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+import { getFirestore, collection, onSnapshot, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+const app = initializeApp({
+  apiKey: 'AIzaSyAEgJEXvi-qEQJdIZrNZT-bHOlUSQzct4c',
+  authDomain: 'atwi-4ae55.firebaseapp.com',
+  projectId: 'atwi-4ae55',
+  storageBucket: 'atwi-4ae55.firebasestorage.app',
+  messagingSenderId: '1007870140303',
+  appId: '1:1007870140303:web:a0b2a6124d5d43eb6435fa'
+});
+const ADMIN = 'Qq5Crr1yT5XxX456REtLDxcEDd82';
+const auth = getAuth(app), db = getFirestore(app);
+const $ = (s) => document.querySelector(s);
+const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+
+let board = localStorage.getItem('board') || 'players2';
+let data = { players: [], players2: [] }, emails = {}, q = '';
+let unsub = [];
+
+$('#out').onclick = () => signOut(auth);
+
+function showLogin(msg) {
+  const m = $('#app'); m.replaceChildren();
+  const c = el('div', 'center');
+  c.append(el('p', null, 'سجّل دخول بحساب قوقل مالك عشان تشوف اللاعبين.'));
+  const b = el('button', 'big', 'دخول بقوقل');
+  b.onclick = async () => {
+    try { await signInWithPopup(auth, new GoogleAuthProvider().setCustomParameters({ prompt: 'select_account' })); }
+    catch (e) { showLogin('ما قدرنا ندخل (' + (e.code || e.message) + ')'); }
+  };
+  c.append(b);
+  if (msg) c.append(el('p', 'err', msg));
+  m.append(c);
+}
+
+const day = (d) => d.toLocaleDateString('en-CA');
+function ago(d) {
+  if (!d) return '—';
+  const s = (Date.now() - d.getTime()) / 1000;
+  if (s < 90) return 'الحين';
+  if (s < 3600) return 'قبل ' + Math.round(s / 60) + ' دقيقة';
+  if (s < 86400) return 'قبل ' + Math.round(s / 3600) + ' ساعة';
+  return 'قبل ' + Math.round(s / 86400) + ' يوم';
+}
+
+function render() {
+  const list = data[board].slice().sort((a, b) => b.best - a.best || (a.updated?.getTime() ?? 0) - (b.updated?.getTime() ?? 0));
+  const today = day(new Date());
+  const active = list.filter((p) => p.updated && day(p.updated) === today).length;
+  const top = list[0];
+  const m = $('#app'); m.replaceChildren();
+
+  const seg = el('div', 'seg');
+  for (const [k, t] of [['players2', 'اللعبة الجديدة 2.0.7'], ['players', 'القديمة']]) {
+    const b = el('button', board === k ? 'on' : '', t);
+    b.onclick = () => { board = k; localStorage.setItem('board', k); render(); };
+    seg.append(b);
+  }
+  m.append(seg);
+
+  const cards = el('div', 'cards');
+  const card = (l, v, s) => { const c = el('div', 'card'); c.append(el('div', 'l', l), el('div', 'v', String(v)), el('div', 's', s || '')); return c; };
+  cards.append(
+    card('سجّلوا دخول', list.length, Object.keys(emails).length ? 'إيميلات محفوظة: ' + Object.keys(emails).length : ''),
+    card('لعبوا اليوم', active, ''),
+    card('أعلى مرحلة', top ? top.best : '—', top ? top.name : ''),
+    card('آخر واحد لعب', list.length ? ago(list.reduce((a, p) => (p.updated && (!a || p.updated > a) ? p.updated : a), null)) : '—', '')
+  );
+  m.append(cards);
+
+  const inp = el('input', 'q'); inp.placeholder = 'دوّر على اسم أو إيميل'; inp.value = q;
+  inp.oninput = () => { q = inp.value; drawRows(); };
+  m.append(inp);
+  const rows = el('div'); rows.id = 'rows'; m.append(rows);
+
+  function drawRows() {
+    rows.replaceChildren();
+    const k = q.trim().toLowerCase();
+    let shown = 0;
+    list.forEach((p, i) => {
+      const em = emails[p.id] || '';
+      if (k && !(p.name.toLowerCase().includes(k) || em.toLowerCase().includes(k))) return;
+      shown++;
+      const r = el('div', 'row');
+      r.append(el('div', 'rk', ['🥇', '🥈', '🥉'][i] || String(i + 1)));
+      const w = el('div', 'who');
+      const n = el('div', 'n', p.name);
+      if (p.updated && day(p.updated) === today) n.append(el('span', 'dot'));
+      w.append(n);
+      if (em) w.append(el('div', 'e', em));
+      w.append(el('div', 't', 'آخر لعب: ' + ago(p.updated)));
+      const lv = el('div', 'lv'); lv.append(el('div', 'v', String(p.best)), el('div', 'l', 'مرحلة'));
+      r.append(w, lv);
+      rows.append(r);
+    });
+    if (!shown) rows.append(el('div', 'center muted', list.length ? 'ما لقينا أحد' : 'ما في لاعبين هني للحين'));
+  }
+  drawRows();
+
+  const links = el('div', 'links');
+  for (const [t, u] of [['📈 تحميلات الآب ستور', 'https://appstoreconnect.apple.com/apps/6834734894/analytics/overview'], ['🤖 قوقل بلاي', 'https://play.google.com/console']]) {
+    const a = el('a', null, t); a.href = u; a.target = '_blank'; a.rel = 'noopener'; links.append(a);
+  }
+  m.append(links);
+  m.append(el('p', 'muted', 'الأرقام تتحدث بروحها أول ما يلعب أحد. اللي يدخلون بـ Apple ويخفون إيميلهم يطلع لهم إيميل مخفي من أبل.'));
+}
+
+function listen() {
+  unsub.forEach((u) => u()); unsub = [];
+  for (const c of ['players', 'players2']) {
+    unsub.push(onSnapshot(collection(db, c), (s) => {
+      data[c] = s.docs.map((d) => {
+        const x = d.data();
+        return { id: d.id, name: String(x.name ?? '—'), best: Number(x.best ?? 0), updated: x.updated?.toDate ? x.updated.toDate() : null };
+      });
+      render();
+    }, (e) => { $('#app').replaceChildren(el('div', 'center err', 'ما قدرنا نقرا اللاعبين (' + e.code + ')')); }));
+  }
+  unsub.push(onSnapshot(collection(db, 'emails'), (s) => {
+    emails = {}; s.docs.forEach((d) => { emails[d.id] = d.data().email || ''; }); render();
+  }, () => {}));
+}
+
+onAuthStateChanged(auth, (u) => {
+  unsub.forEach((x) => x()); unsub = [];
+  $('#out').hidden = !u;
+  if (!u) return showLogin();
+  if (u.uid !== ADMIN) { signOut(auth); return showLogin('هذا الحساب مو مسموح له. ادخل بـ jaberalmarri.kw@gmail.com'); }
+  listen();
+});
+</script>
+</body>
+</html>
