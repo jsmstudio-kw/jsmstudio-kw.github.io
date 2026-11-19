@@ -186,7 +186,7 @@ function render() {
     const hits = list.map((p, i) => ({ p, i })).filter(({ p }) => !k || p.name.toLowerCase().includes(k) || (emails[p.id] || '').toLowerCase().includes(k));
     if (!hits.length) { box.append(el('div', 'center muted', list.length ? 'ما لقينا أحد' : 'ما في لاعبين للحين')); return; }
     let rest = hits;
-    if (!k && hits.length >= 3) {
+    if (false) { // no podium: everyone in one list
       const pod = el('div', 'pod');
       for (const idx of [1, 0, 2]) {
         const { p } = hits[idx];
@@ -201,7 +201,7 @@ function render() {
     }
     for (const { p, i } of rest) {
       const r = el('div', 'row');
-      r.append(el('div', 'rk', String(i + 1)));
+      r.append(el('div', 'rk', ['🥇', '🥈', '🥉'][i] || String(i + 1)));
       const w = el('div', 'who');
       const n = el('div', 'n'); n.append(el('span', null, p.name));
       if (isToday(p)) n.append(el('span', 'today', 'اليوم'));
