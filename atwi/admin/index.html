@@ -150,7 +150,6 @@ function render() {
   lg.append(li, la);
   if (stats?.asOf) lg.append(el('span', 'asof', 'لين ' + stats.asOf));
   hero.append(lg);
-  m.append(hero);
 
   // tiles
   const tiles = el('div', 'tiles');
@@ -162,7 +161,9 @@ function render() {
     tile('var(--gold)', '🏆', 'أعلى مرحلة', top ? top.best : '—', top ? top.name : ''),
     tile('var(--violet)', '⏱️', 'آخر واحد لعب', last ? ago(last) : '—', '')
   );
-  m.append(tiles);
+
+  // numbers on top, players under them
+  m.append(el('h2', null, 'الأرقام'), hero, tiles);
 
   // players
   const h = el('h2', null, 'اللاعبين'); h.append(el('span', 'n', String(list.length))); m.append(h);
