@@ -128,11 +128,12 @@ function ago(d) {
 
 function render() {
   ready = true;
-  const list = data[board].slice().sort((a, b) => b.best - a.best || (a.updated?.getTime() ?? 0) - (b.updated?.getTime() ?? 0));
+  // newest player first (whoever played last is on top)
+  const list = data[board].slice().sort((a, b) => (b.updated?.getTime() ?? 0) - (a.updated?.getTime() ?? 0));
   const today = day(new Date());
   const isToday = (p) => p.updated && day(p.updated) === today;
   const active = list.filter(isToday).length;
-  const top = list[0];
+  const top = list.reduce((m, p) => (!m || p.best > m.best ? p : m), null);
   const lastP = list.reduce((a, p) => (p.updated && (!a || p.updated > a.updated) ? p : a), null);
   const last = lastP?.updated || null;
   const m = $('#app'); m.replaceChildren();
@@ -202,7 +203,7 @@ function render() {
     }
     for (const { p, i } of rest) {
       const r = el('div', 'row');
-      r.append(el('div', 'rk', ['🥇', '🥈', '🥉'][i] || String(i + 1)));
+      r.append(el('div', 'rk', String(i + 1)));
       const w = el('div', 'who');
       const n = el('div', 'n'); n.append(el('span', null, p.name));
       if (isToday(p)) n.append(el('span', 'today', 'اليوم'));
