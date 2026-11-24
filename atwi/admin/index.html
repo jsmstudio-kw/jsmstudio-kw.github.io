@@ -89,6 +89,76 @@
   .err{color:var(--red);font-weight:700}
   .login{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:26px 18px;text-align:center}
   .login p{font-weight:700;margin:0 0 18px}
+
+  .rep{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px;margin-bottom:8px}
+  .rep .h{display:flex;gap:8px;align-items:center;font-weight:900;font-size:14px;flex-wrap:wrap}
+  .rep .h .ty{background:var(--card2);border-radius:999px;padding:2px 9px;font-size:11px;color:var(--gold)}
+  .rep .h .muted{color:var(--muted)}
+  .rep .x{margin:8px 0;padding:9px 11px;background:var(--card2);border-radius:12px;font-size:15px;white-space:pre-wrap;word-break:break-word}
+  .rep img{width:96px;height:96px;border-radius:50%;object-fit:cover;display:block;margin:8px 0}
+  .rep .b{display:flex;gap:6px;flex-wrap:wrap}
+  .rep .b button{border:0;border-radius:999px;padding:8px 12px;font-weight:900;font-size:13px;background:var(--card2);color:var(--ink)}
+  .rep .b button.red{background:var(--red);color:#fff}
+  .rep .b button.gold{background:var(--gold);color:#2A1A08}
+  .tiles{grid-template-columns:repeat(2,1fr)}
+
+  /* ---- 2.1.0 */
+  .tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 2px 10px;margin:0 -2px;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tabs button{flex:none;border:0;border-radius:999px;padding:9px 14px;font-weight:900;font-size:14px;background:rgba(42,22,8,.82);color:#E9D9CC;position:relative}
+  .tabs button.on{background:#2A1608;color:var(--gold2);box-shadow:inset 0 0 0 2px var(--gold)}
+  .tabs button .bd{position:absolute;top:-4px;left:-4px;background:var(--red);color:#fff;border-radius:999px;font-size:11px;min-width:18px;height:18px;line-height:18px;padding:0 5px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:12px}
+  .card h3{margin:0 0 10px;font-size:15px;font-weight:900;display:flex;align-items:center;gap:8px}
+  .card h3 small{margin-inline-start:auto;color:var(--muted);font-size:12px;font-weight:700}
+  .bars{display:flex;align-items:flex-end;gap:4px;height:120px;padding-top:16px}
+  .bars .c{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;min-width:0;height:100%;justify-content:flex-end}
+  .bars .b{width:100%;border-radius:6px 6px 3px 3px;background:linear-gradient(180deg,var(--gold2),var(--gold));min-height:3px;position:relative}
+  .bars .b span{position:absolute;top:-16px;left:50%;transform:translateX(-50%);font-size:10px;font-weight:900;color:var(--ink)}
+  .bars .x{font-size:9.5px;color:var(--muted);white-space:nowrap}
+  .hrow{display:flex;align-items:center;gap:8px;margin:7px 0;font-size:13px;font-weight:800}
+  .hrow .k{width:74px;color:var(--muted);flex:none;direction:ltr;text-align:right}
+  .hrow .t{flex:1;height:14px;background:var(--card2);border-radius:999px;overflow:hidden}
+  .hrow .t i{display:block;height:100%;background:linear-gradient(90deg,var(--violet),var(--blue));border-radius:999px}
+  .hrow .v{width:34px;text-align:left;flex:none}
+  .mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .mini div{background:var(--card2);border-radius:14px;padding:10px 6px;text-align:center}
+  .mini b{display:block;font-size:20px;color:var(--gold2)}
+  .mini span{font-size:11px;color:var(--muted);font-weight:700}
+  .av{width:34px;height:34px;border-radius:50%;object-fit:cover;flex:none;background:#3A2C1C;display:grid;place-items:center;font-size:18px;overflow:hidden}
+  .row{cursor:pointer}
+  .tools{display:flex;gap:8px;margin-bottom:10px}
+  .tools select,.tools button{background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:10px;font-weight:800;font-size:13px}
+  .tools select{flex:1}
+  .msg{display:flex;gap:8px;align-items:flex-start;margin-bottom:8px}
+  .msg .bb{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px 11px;flex:1;min-width:0}
+  .msg .bb .n{font-weight:900;font-size:13px;color:var(--gold)}
+  .msg .bb .tx{font-size:15px;white-space:pre-wrap;word-break:break-word}
+  .msg .bb .tm{font-size:10.5px;color:var(--muted)}
+  .msg .bb.hid{opacity:.5;border-color:var(--red)}
+  .msg .del{background:var(--card2);border:0;border-radius:10px;color:var(--ink);padding:7px 9px;font-size:14px}
+  .sw{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-weight:800;font-size:14px}
+  .sw:last-child{border-bottom:0}
+  .sw .s{margin-inline-start:auto;border-radius:999px;padding:3px 11px;font-size:12px;font-weight:900}
+  .sw .on{background:rgba(61,220,132,.16);color:var(--green)}
+  .sw .off{background:rgba(255,90,78,.16);color:var(--red)}
+  .sw .nt{background:var(--card2);color:var(--muted)}
+  .sheet{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:flex-end;justify-content:center;z-index:9}
+  .sheet .in{background:var(--card);border-radius:22px 22px 0 0;width:100%;max-width:560px;padding:18px 16px calc(env(safe-area-inset-bottom) + 18px)}
+  .sheet .in .hd{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .sheet .in .hd .av{width:56px;height:56px;font-size:28px}
+  .sheet .in .hd b{font-size:19px}
+  .sheet .in .kv{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px}
+  .sheet .in .kv span:first-child{color:var(--muted)}
+  .sheet .in .kv span:last-child{font-weight:800;direction:ltr}
+  .sheet .in .acts{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .sheet .in .acts button{border:0;border-radius:14px;padding:12px;font-weight:900;font-size:14px;background:var(--card2);color:var(--ink)}
+  .sheet .in .acts button.red{background:var(--red);color:#fff}
+  .sheet .in .acts button.gold{background:var(--gold);color:#2A1A08}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#2A1608;color:#fff;border-radius:999px;padding:10px 18px;font-weight:800;z-index:10}
+  .gal{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .gal div{text-align:center;font-size:11px;font-weight:800;color:var(--muted)}
+  .gal img{width:100%;aspect-ratio:1;border-radius:50%;object-fit:cover;display:block;margin-bottom:4px;background:#3A2C1C}
 </style>
 </head>
 <body>
@@ -109,12 +179,18 @@
 const DEMO = location.hash === '#demo';
 const $ = (s) => document.querySelector(s);
 const el = (tag, cls, txt) => { const e = document.createElement(tag); if (cls) e.className = cls; if (txt != null) e.textContent = txt; return e; };
+const SITE = 'https://jsmstudio-kw.github.io/atwi';
+const AVATAR_NAMES = { b01: 'غترة وعقال', b02: 'بشت', b03: 'نظارة', b04: 'التاج', b05: 'لاعب كورة', b06: 'رائد فضاء', b07: 'الطباخ', b08: 'نينجا', b09: 'القرصان', b10: 'قيمر', b11: 'المتخرج', b12: 'فانوس رمضان',
+  g01: 'الفيونكة', g02: 'الشيلة', g03: 'الأميرة', g04: 'تاج الورد', g05: 'نظارة القلوب', g06: 'الخبّازة', g07: 'الدكتورة', g08: 'المتخرجة', g09: 'رائدة فضاء', g10: 'قيمر', g11: 'الرسّامة', g12: 'فانوس رمضان', u: 'صورته الخاصة' };
 
+let tab = localStorage.getItem('tab') || 'nums';
 let board = localStorage.getItem('board') || 'players2';
+let sortBy = localStorage.getItem('sort') || 'recent';
 let data = { players: [], players2: [] }, emails = {}, q = '';
-let stats = null;
+let reports = [], banned = [], chat = [], photos = null, texts = null;
+let stats = null, act = null, ready = false;
 fetch('stats.json?v=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((j) => { if (DEMO) return; stats = j; if (ready) render(); }).catch(() => {});
-let ready = false;
+fetch(SITE + '/texts.json?v=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((j) => { if (DEMO) return; texts = j; if (ready) render(); }).catch(() => {});
 
 const day = (d) => d.toLocaleDateString('en-CA');
 function ago(d) {
@@ -125,50 +201,140 @@ function ago(d) {
   if (s < 86400) return 'قبل ' + Math.round(s / 3600) + ' ساعة';
   return 'قبل ' + Math.round(s / 86400) + ' يوم';
 }
+function toast(t) { const x = el('div', 'toast', t); document.body.append(x); setTimeout(() => x.remove(), 2200); }
+function avatar(p) {
+  const a = el('div', 'av');
+  const id = p.av || 'cat';
+  if (id === 'u') { a.textContent = '📷'; act?.photo(p.id).then((u) => { if (u) { const im = el('img', 'av'); im.src = u; a.replaceWith(im); } }); }
+  else if (AVATAR_NAMES[id]) { const im = el('img', 'av'); im.src = SITE + '/avatars/' + id + '.jpg'; im.onerror = () => im.replaceWith(Object.assign(el('div', 'av'), { textContent: '😼' })); return im; }
+  else a.textContent = '😼';
+  return a;
+}
+const pending = () => { const g = new Set(); for (const r of reports) g.add((r.type || 'name') + '|' + (r.path || r.uid)); return g.size; };
 
+// ------------------------------------------------------------ page
 function render() {
   ready = true;
-  // newest player first (whoever played last is on top)
-  const list = data[board].slice().sort((a, b) => (b.updated?.getTime() ?? 0) - (a.updated?.getTime() ?? 0));
+  const m = $('#app'); m.replaceChildren();
+  const tabs = el('div', 'tabs');
+  const nRep = pending();
+  for (const [k, t, bd] of [['nums', '📊 الأرقام'], ['players', '👥 اللاعبين'], ['chat', '💬 الشات'], ['reports', '🚩 البلاغات', nRep], ['photos', '📷 الصور'], ['game', '🎛️ اللعبة']]) {
+    const b = el('button', tab === k ? 'on' : '', t);
+    if (bd) b.append(el('span', 'bd', String(bd)));
+    b.onclick = () => { tab = k; localStorage.setItem('tab', k); if (k === 'photos' && photos == null && act) act.loadPhotos(); render(); window.scrollTo(0, 0); };
+    tabs.append(b);
+  }
+  m.append(tabs);
+  ({ nums, players: playersTab, chat: chatTab, reports: reportsTab, photos: photosTab, game: gameTab }[tab] || nums)(m);
+}
+
+// 📊 numbers
+function nums(m) {
+  const list = data.players2;
   const today = day(new Date());
   const isToday = (p) => p.updated && day(p.updated) === today;
-  const active = list.filter(isToday).length;
-  const top = list.reduce((m, p) => (!m || p.best > m.best ? p : m), null);
+  const week = Date.now() - 7 * 864e5;
+  const top = list.reduce((a, p) => (!a || p.best > a.best ? p : a), null);
   const lastP = list.reduce((a, p) => (p.updated && (!a || p.updated > a.updated) ? p : a), null);
-  const last = lastP?.updated || null;
-  const m = $('#app'); m.replaceChildren();
 
-  // downloads
   const hero = el('div', 'hero');
   const ios = Number(stats?.ios || 0), and = Number(stats?.android || 0), tot = ios + and;
   hero.append(el('div', 'l', '📲 حمّلوا اللعبة'), el('div', 'v', stats ? tot.toLocaleString('en') : '—'));
-  const sp = el('div', 'split');
-  const i1 = el('div', 'i'), a1 = el('div', 'a');
+  const sp = el('div', 'split'); const i1 = el('div', 'i'), a1 = el('div', 'a');
   i1.style.width = (tot ? ios / tot * 100 : 0) + '%'; a1.style.width = (tot ? and / tot * 100 : 0) + '%';
   sp.append(i1, a1); hero.append(sp);
   const lg = el('div', 'legend');
   const li = el('span'); li.append(Object.assign(el('b'), { style: 'background:var(--blue)' }), document.createTextNode('آيفون ' + ios));
   const la = el('span'); la.append(Object.assign(el('b'), { style: 'background:var(--green)' }), document.createTextNode('أندرويد ' + and));
-  lg.append(li, la);
-  if (stats?.asOf) lg.append(el('span', 'asof', 'لين ' + stats.asOf));
-  hero.append(lg);
+  lg.append(li, la); if (stats?.asOf) lg.append(el('span', 'asof', 'لين ' + stats.asOf)); hero.append(lg);
 
-  // tiles
   const tiles = el('div', 'tiles');
   const tile = (c, ic, l, v, s) => { const t = el('div', 'tile'); t.style.setProperty('--c', c); const vv = el('div', 'v', String(v)); if (String(v).length > 6) vv.style.fontSize = '19px'; t.append(el('div', 'ic', ic), vv, el('div', 'l', l)); if (s) t.append(el('div', 's', s)); return t; };
   const nEm = Object.keys(emails).length;
+  const paid = list.filter((p) => p.av && p.av !== 'cat').length;
   tiles.append(
     tile('var(--blue)', '👤', 'سجّلوا دخول', list.length, nEm ? nEm + ' إيميل محفوظ' : ''),
-    tile('var(--green)', '🔥', 'لعبوا اليوم', active, ''),
+    tile('var(--green)', '🔥', 'لعبوا اليوم', list.filter(isToday).length, list.filter((p) => p.updated && p.updated.getTime() > week).length + ' هالأسبوع'),
     tile('var(--gold)', '🏆', 'أعلى مرحلة', top ? top.best : '—', top ? top.name : ''),
-    tile('var(--violet)', '⏱️', 'آخر واحد لعب', lastP ? lastP.name : '—', last ? ago(last) : '')
+    tile('var(--violet)', '⏱️', 'آخر واحد لعب', lastP ? lastP.name : '—', lastP ? ago(lastP.updated) : ''),
+    tile('var(--pink)', '🖼️', 'حاطين صورة مدفوعة', paid, list.length ? Math.round(paid / list.length * 100) + '% من اللاعبين' : ''),
+    tile('var(--red)', '🚩', 'بلاغات تنطر', pending(), banned.length ? banned.length + ' محظور من الشات' : '')
   );
+  m.append(hero, tiles);
 
-  // numbers on top, players under them
-  m.append(el('h2', null, 'الأرقام'), hero, tiles);
+  // last 14 days: how many players played (last time) on each day
+  const c1 = el('div', 'card'); const h1 = el('h3', null, '📅 آخر لعب — آخر 14 يوم'); h1.append(el('small', null, 'كل لاعب بآخر يوم لعب فيه')); c1.append(h1);
+  const bars = el('div', 'bars'); const days = [];
+  for (let i = 13; i >= 0; i--) { const d = new Date(Date.now() - i * 864e5); days.push([day(d), d]); }
+  const cnt = days.map(([k]) => list.filter((p) => p.updated && day(p.updated) === k).length);
+  const mx = Math.max(1, ...cnt);
+  days.forEach(([, d], i) => { const c = el('div', 'c'); const b = el('div', 'b'); b.style.height = (cnt[i] / mx * 100) + '%'; b.append(el('span', null, cnt[i] ? String(cnt[i]) : '')); c.append(b, el('div', 'x', d.getDate() + '/' + (d.getMonth() + 1))); bars.append(c); });
+  c1.append(bars); m.append(c1);
 
-  // players
-  const h = el('h2', null, 'اللاعبين'); h.append(el('span', 'n', String(list.length))); m.append(h);
+  // where the players are (levels)
+  const c2 = el('div', 'card'); const h2 = el('h3', null, '🧗 وين وصلوا'); c2.append(h2);
+  const lv = list.map((p) => p.best).sort((a, b) => a - b);
+  const avg = lv.length ? Math.round(lv.reduce((a, b) => a + b, 0) / lv.length) : 0, med = lv.length ? lv[Math.floor(lv.length / 2)] : 0;
+  const mini = el('div', 'mini');
+  for (const [v, t] of [[avg, 'المتوسط'], [med, 'النص'], [lv.filter((x) => x >= 100).length, 'عدّوا 100']]) { const d = el('div'); d.append(el('b', null, String(v)), el('span', null, t)); mini.append(d); }
+  c2.append(mini);
+  const buckets = [[0, 10], [11, 50], [51, 100], [101, 200], [201, 400], [401, 700], [701, 1000], [1001, 9999]];
+  const bc = buckets.map(([a, b]) => lv.filter((x) => x >= a && x <= b).length), bm = Math.max(1, ...bc);
+  buckets.forEach(([a, b], i) => { const r = el('div', 'hrow'); const t = el('div', 't'); const f = el('i'); f.style.width = (bc[i] / bm * 100) + '%'; t.append(f); r.append(el('div', 'k', b > 2100 ? a + '+' : a + '–' + b), t, el('div', 'v', String(bc[i]))); c2.append(r); });
+  m.append(c2);
+
+  // top 5
+  const c3 = el('div', 'card'); c3.append(el('h3', null, '🥇 أول 5'));
+  list.slice().sort((a, b) => b.best - a.best).slice(0, 5).forEach((p, i) => c3.append(playerRow(p, i + 1)));
+  m.append(c3);
+
+  const links = el('div', 'links');
+  for (const [t, u] of [['🍎 آب ستور', 'https://appstoreconnect.apple.com/apps/6834734894/analytics/overview'], ['🤖 قوقل بلاي', 'https://play.google.com/console'], ['🔥 Firebase', 'https://console.firebase.google.com/u/1/project/atwi-4ae55/firestore/databases/-default-/usage'], ['💰 AdMob', 'https://apps.admob.com']]) {
+    const a = el('a', null, t); a.href = u; a.target = '_blank'; a.rel = 'noopener'; links.append(a);
+  }
+  m.append(links);
+}
+
+function playerRow(p, rank) {
+  const r = el('div', 'row');
+  r.append(el('div', 'rk', String(rank)), avatar(p));
+  const w = el('div', 'who');
+  const n = el('div', 'n'); n.append(el('span', null, p.name));
+  if (p.updated && day(p.updated) === day(new Date())) n.append(el('span', 'today', 'اليوم'));
+  if (banned.some((b) => b.id === p.id)) n.append(el('span', 'today', '⛔'));
+  w.append(n);
+  const em = emails[p.id]; if (em) w.append(el('div', 'e', em));
+  w.append(el('div', 't', 'آخر لعب: ' + ago(p.updated)));
+  const pl = el('div', 'pill'); pl.append(el('div', 'v', String(p.best)), el('div', 'l', 'مرحلة'));
+  r.append(w, pl);
+  r.onclick = () => sheet(p);
+  return r;
+}
+
+// a player's card: details + actions
+function sheet(p) {
+  const bg = el('div', 'sheet'); const s = el('div', 'in'); bg.append(s);
+  bg.onclick = (e) => { if (e.target === bg) bg.remove(); };
+  const hd = el('div', 'hd'); hd.append(avatar(p)); const nm = el('div'); nm.append(el('b', null, p.name)); hd.append(nm); s.append(hd);
+  const kv = (k, v) => { const r = el('div', 'kv'); r.append(el('span', null, k), el('span', null, v)); s.append(r); };
+  const rank = data.players2.filter((x) => x.best > p.best).length + 1;
+  kv('المركز', '#' + rank); kv('أعلى مرحلة', String(p.best)); kv('آخر لعب', ago(p.updated));
+  kv('الصورة', AVATAR_NAMES[p.av] || 'عتوي (مجانية)'); kv('الإيميل', emails[p.id] || '—');
+  const acts = el('div', 'acts');
+  const btn = (t, cls, fn) => { const b = el('button', cls, t); b.onclick = async () => { b.disabled = true; await fn(); bg.remove(); render(); }; acts.append(b); };
+  if (emails[p.id]) btn('📋 انسخ الإيميل', '', async () => { try { await navigator.clipboard.writeText(emails[p.id]); toast('انسخ ✅'); } catch { toast(emails[p.id]); } });
+  btn('✏️ رجّع اسمه «لاعب»', 'gold', async () => { if (confirm('تغيّر اسم «' + p.name + '» إلى «لاعب»؟')) { await act.rename(p.id); toast('تغيّر ✅'); } });
+  if (p.av === 'u') btn('🗑️ امسح صورته', 'red', async () => { if (confirm('تمسح صورته الخاصة؟')) { await act.del('photos/' + p.id); toast('انمسحت ✅'); } });
+  if (banned.some((b) => b.id === p.id)) btn('فك حظر الشات', '', async () => { await act.unban(p.id); toast('انفك ✅'); });
+  else btn('⛔ احظره من الشات', 'red', async () => { if (confirm('تحظر «' + p.name + '» من الشات؟')) { await act.ban(p.id, p.name); toast('انحظر ✅'); } });
+  s.append(acts);
+  document.body.append(bg);
+}
+
+// 👥 players
+function playersTab(m) {
+  const all = data[board];
+  const h = el('h2', null, 'اللاعبين'); h.append(el('span', 'n', String(all.length))); m.append(h);
   const seg = el('div', 'seg');
   for (const [k, t] of [['players2', 'الجديدة'], ['players', 'القديمة']]) {
     const b = el('button', board === k ? 'on' : '', t);
@@ -176,64 +342,144 @@ function render() {
     seg.append(b);
   }
   m.append(seg);
-
+  const tools = el('div', 'tools');
+  const sel = el('select');
+  for (const [k, t] of [['recent', 'ترتيب: آخر واحد لعب'], ['best', 'ترتيب: أعلى مرحلة'], ['name', 'ترتيب: الاسم'], ['paid', 'بس اللي حاطين صورة مدفوعة'], ['email', 'بس اللي عندهم إيميل']]) { const o = el('option', null, t); o.value = k; if (k === sortBy) o.selected = true; sel.append(o); }
+  sel.onchange = () => { sortBy = sel.value; localStorage.setItem('sort', sortBy); render(); };
+  const csv = el('button', null, '⬇️ CSV');
+  csv.onclick = () => {
+    const rows = [['name', 'best', 'last_played', 'email', 'avatar']].concat(all.map((p) => [p.name, p.best, p.updated ? p.updated.toISOString() : '', emails[p.id] || '', p.av || '']));
+    const t = '﻿' + rows.map((r) => r.map((x) => '"' + String(x).replace(/"/g, '""') + '"').join(',')).join('\n');
+    const a = el('a'); a.href = URL.createObjectURL(new Blob([t], { type: 'text/csv' })); a.download = 'atwi_players.csv'; a.click();
+  };
+  tools.append(sel, csv); m.append(tools);
   const inp = el('input', 'q'); inp.placeholder = '🔍 دوّر على اسم أو إيميل'; inp.value = q;
   inp.oninput = () => { q = inp.value; draw(); };
   m.append(inp);
   const box = el('div'); m.append(box);
-
+  let list = all.slice();
+  if (sortBy === 'best') list.sort((a, b) => b.best - a.best);
+  else if (sortBy === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'ar'));
+  else list.sort((a, b) => (b.updated?.getTime() ?? 0) - (a.updated?.getTime() ?? 0));
+  if (sortBy === 'paid') list = list.filter((p) => p.av && p.av !== 'cat');
+  if (sortBy === 'email') list = list.filter((p) => emails[p.id]);
   function draw() {
     box.replaceChildren();
     const k = q.trim().toLowerCase();
-    const hits = list.map((p, i) => ({ p, i })).filter(({ p }) => !k || p.name.toLowerCase().includes(k) || (emails[p.id] || '').toLowerCase().includes(k));
-    if (!hits.length) { box.append(el('div', 'center muted', list.length ? 'ما لقينا أحد' : 'ما في لاعبين للحين')); return; }
-    let rest = hits;
-    if (false) { // no podium: everyone in one list
-      const pod = el('div', 'pod');
-      for (const idx of [1, 0, 2]) {
-        const { p } = hits[idx];
-        const c = el('div', 'pc' + (idx === 0 ? ' g1' : ''));
-        c.append(el('div', 'm', ['🥇', '🥈', '🥉'][idx]), el('div', 'nm', p.name));
-        const lv = el('div', 'lv', String(p.best)); lv.append(el('small', null, ' مرحلة'));
-        c.append(lv);
-        pod.append(c);
-      }
-      box.append(pod);
-      rest = hits.slice(3);
-    }
-    for (const { p, i } of rest) {
-      const r = el('div', 'row');
-      r.append(el('div', 'rk', String(i + 1)));
-      const w = el('div', 'who');
-      const n = el('div', 'n'); n.append(el('span', null, p.name));
-      if (isToday(p)) n.append(el('span', 'today', 'اليوم'));
-      w.append(n);
-      const em = emails[p.id]; if (em) w.append(el('div', 'e', em));
-      w.append(el('div', 't', 'آخر لعب: ' + ago(p.updated)));
-      const pl = el('div', 'pill'); pl.append(el('div', 'v', String(p.best)), el('div', 'l', 'مرحلة'));
-      r.append(w, pl);
-      box.append(r);
-    }
+    const hits = list.filter((p) => !k || p.name.toLowerCase().includes(k) || (emails[p.id] || '').toLowerCase().includes(k));
+    if (!hits.length) { box.append(el('div', 'center muted', all.length ? 'ما لقينا أحد' : 'ما في لاعبين للحين')); return; }
+    hits.slice(0, 300).forEach((p, i) => box.append(playerRow(p, i + 1)));
+    if (hits.length > 300) box.append(el('div', 'muted', 'يطلع أول 300 — دوّر بالاسم عشان تلقى الباقين'));
   }
   draw();
-
-  const links = el('div', 'links');
-  for (const [t, u] of [['🍎 آب ستور', 'https://appstoreconnect.apple.com/apps/6834734894/analytics/overview'], ['🤖 قوقل بلاي', 'https://play.google.com/console']]) {
-    const a = el('a', null, t); a.href = u; a.target = '_blank'; a.rel = 'noopener'; links.append(a);
-  }
-  m.append(links);
-  m.append(el('p', 'muted', 'الأرقام تتحدث بروحها أول ما يلعب أحد.\nاللي يدخلون بأبل ويخفون إيميلهم يطلع لهم إيميل مخفي من أبل.'));
+  m.append(el('p', 'muted', 'دق على أي لاعب عشان تشوف تفاصيله وتغيّر اسمه أو تحظره.'));
 }
 
+// 💬 the public room, live
+function chatTab(m) {
+  const h = el('h2', null, '💬 الشات العام — مباشر'); h.append(el('span', 'n', String(chat.length))); m.append(h);
+  if (!chat.length) m.append(el('div', 'center muted', 'محد كتب للحين'));
+  for (const c of chat) {
+    const r = el('div', 'msg');
+    r.append(avatar({ id: c.uid, av: c.av }));
+    const bb = el('div', 'bb' + ((c.rep?.length || 0) >= 3 ? ' hid' : ''));
+    bb.append(el('div', 'n', c.name + (banned.some((b) => b.id === c.uid) ? ' ⛔' : '')), el('div', 'tx', c.text), el('div', 'tm', ago(c.at) + ((c.rep?.length || 0) ? ' · 🚩 ' + c.rep.length : '')));
+    const d = el('button', 'del', '🗑️'); d.title = 'امسح';
+    d.onclick = async () => { if (confirm('تمسح الرسالة؟')) { await act.del('chat/' + c.id); toast('انمسحت ✅'); } };
+    const p = data.players2.find((x) => x.id === c.uid);
+    bb.onclick = () => sheet(p || { id: c.uid, name: c.name, best: 0, av: c.av });
+    r.append(bb, d); m.append(r);
+  }
+  m.append(el('p', 'muted', 'الرسالة اللي عليها 3 بلاغات تختفي عند اللاعبين (تطلع هني بخط أحمر).\nالرسايل الخاصة ما تنقرا من هني — بس اللي ينبلّغ عنها يطلع بالبلاغات.'));
+}
+
+// 🚩 reports
+const TYPES = { name: 'اسم', chat: 'الشات العام', dm: 'رسالة خاصة', photo: 'صورة' };
+function reportsTab(m) {
+  const groups = new Map();
+  for (const r of reports) {
+    const k = (r.type || 'name') + '|' + (r.path || r.uid);
+    if (!groups.has(k)) groups.set(k, { ...r, type: r.type || 'name', ids: [], by: new Set() });
+    const g = groups.get(k); g.ids.push(r.id); g.by.add(r.by);
+  }
+  const h = el('h2', null, '🚩 البلاغات'); h.append(el('span', 'n', String(groups.size))); m.append(h);
+  if (!groups.size) m.append(el('div', 'center muted', 'ما في بلاغات 👌'));
+  for (const g of groups.values()) {
+    const c = el('div', 'rep');
+    const hd = el('div', 'h'); hd.append(el('span', 'ty', TYPES[g.type] || g.type), el('span', null, g.name || '—'), el('span', 'muted', '× ' + g.by.size + ' · ' + ago(g.at)));
+    c.append(hd);
+    if (g.text) c.append(el('div', 'x', g.text));
+    if (g.type === 'photo') { const im = el('img'); im.alt = ''; c.append(im); act.photo(g.uid).then((u) => { if (u) im.src = u; else im.replaceWith(el('div', 'x', '(الصورة انمسحت)')); }); }
+    const b = el('div', 'b');
+    const btn = (t, cls, fn) => { const x = el('button', cls, t); x.onclick = async () => { x.disabled = true; await fn(); }; b.append(x); };
+    if (g.type === 'chat' || g.type === 'dm') btn('🗑️ امسح الرسالة', 'red', async () => { await act.del(g.path); for (const id of g.ids) await act.done(id); });
+    if (g.type === 'photo') btn('🗑️ امسح الصورة', 'red', async () => { await act.del('photos/' + g.uid); for (const id of g.ids) await act.done(id); });
+    if (g.type === 'name') btn('✏️ رجّع اسمه «لاعب»', 'red', async () => { await act.rename(g.uid); for (const id of g.ids) await act.done(id); });
+    if (!banned.some((x) => x.id === g.uid)) btn('⛔ احظره من الشات', 'gold', () => act.ban(g.uid, g.name));
+    btn('✅ ما فيها شي', '', async () => { for (const id of g.ids) await act.done(id); });
+    c.append(b); m.append(c);
+  }
+  const hb = el('h2', null, '⛔ المحظورين من الشات'); hb.append(el('span', 'n', String(banned.length))); m.append(hb);
+  if (!banned.length) m.append(el('div', 'center muted', 'محد محظور'));
+  for (const x of banned) {
+    const c = el('div', 'rep');
+    const hd = el('div', 'h'); hd.append(el('span', null, x.name || x.id), el('span', 'muted', ago(x.at))); c.append(hd);
+    const b = el('div', 'b'); const u = el('button', '', 'فك الحظر'); u.onclick = () => act.unban(x.id); b.append(u); c.append(b);
+    m.append(c);
+  }
+}
+
+// 📷 the players' own pictures
+function photosTab(m) {
+  const h = el('h2', null, '📷 صور اللاعبين الخاصة'); h.append(el('span', 'n', photos ? String(photos.length) : '…')); m.append(h);
+  if (photos == null) { m.append(el('div', 'center muted', 'يحمّل…')); return; }
+  if (!photos.length) { m.append(el('div', 'center muted', 'محد حط صورة خاصة للحين')); return; }
+  const g = el('div', 'gal');
+  for (const ph of photos) {
+    const d = el('div'); const im = el('img'); im.src = ph.src; im.alt = '';
+    const p = data.players2.find((x) => x.id === ph.id) || { id: ph.id, name: '—', best: 0, av: 'u' };
+    d.append(im, document.createTextNode(p.name + ((ph.rep || 0) ? ' 🚩' + ph.rep : '')));
+    d.onclick = () => sheet(p);
+    g.append(d);
+  }
+  m.append(g);
+  m.append(el('p', 'muted', 'دق على أي صورة عشان تمسحها أو تحظر صاحبها.'));
+}
+
+// 🎛️ what is switched on in the game right now (from texts.json on the site)
+function gameTab(m) {
+  const c = el('div', 'card'); c.append(el('h3', null, '🎛️ حالة اللعبة الحين'));
+  const cf = texts?.config || {};
+  const sw = (t, v, def = true) => { const r = el('div', 'sw'); const on = v === undefined ? def : v; r.append(el('span', null, t), el('span', 's ' + (on ? 'on' : 'off'), on ? 'شغّال' : 'طافي')); c.append(r); };
+  const info = (t, v) => { const r = el('div', 'sw'); r.append(el('span', null, t), el('span', 's nt', v)); c.append(r); };
+  sw('💬 الشات', cf.chat); sw('🏆 الترتيب', cf.leaderboard); sw('🔐 تسجيل الدخول', cf.signIn); sw('📺 الدعايات', cf.ads);
+  sw('🛒 المتجر', cf.shop); sw('🎁 مرحلة اليوم', cf.daily); sw('📊 الترتيب بعد كل مرحلة', cf.winRank);
+  info('⬆️ نافذة التحديث', cf.update?.build ? 'للي أقدم من ' + cf.update.build : 'طافية');
+  info('💡 باقة العتوي', (cf.packHint ?? 10) + ' 💡');
+  info('🐟 السمچ', String(cf.lives ?? 3));
+  info('🎉 الفعالية', texts?.event ? (texts.event.title || 'فيه فعالية') : 'ما في');
+  info('🎁 الهدية', texts?.gift ? 'فيه هدية' : 'ما في');
+  info('📢 الرسالة', texts?.notice ? 'فيه رسالة' : 'ما في');
+  m.append(c);
+  m.append(el('p', 'muted', texts ? 'تغيير أي شي من هذي يصير من texts.json — قول لـ Claude وهو يغيّرها.' : 'ما قدرنا نقرا texts.json'));
+}
+
+// ------------------------------------------------------------ data
 if (DEMO) {
   const now = Date.now(), H = 3600e3;
-  const names = ['أبو فهد', 'نورة', 'Sara', 'بو سالم', 'عتوي ماستر', 'ريم', 'Ali K', 'مشاري'];
-  data.players2 = names.map((n, i) => ({ id: 'u' + i, name: n, best: [214, 187, 160, 98, 75, 41, 22, 9][i], updated: new Date(now - [0.2, 1, 3, 30, 5, 50, 80, 2][i] * H) }));
+  const names = ['أبو فهد', 'نورة', 'Sara', 'بو سالم', 'عتوي ماستر', 'ريم', 'Ali K', 'مشاري', 'دانة', 'Hamad'];
+  data.players2 = names.map((n, i) => ({ id: 'u' + i, name: n, best: [514, 287, 160, 98, 75, 41, 22, 9, 130, 205][i], av: ['b01', 'g03', 'cat', 'u', 'b08', 'g05', 'cat', 'cat', 'g02', 'cat'][i], updated: new Date(now - [0.2, 1, 30, 50, 5, 100, 180, 2, 260, 20][i] * H) }));
   emails = { u0: 'f***@gmail.com', u1: 'n***@icloud.com', u3: 'x***@privaterelay.appleid.com' };
-  stats = { ios: 55, android: 12, asOf: '17 نوفمبر' };
+  stats = { ios: 55, android: 12, asOf: '24 نوفمبر' };
+  chat = [{ id: 'c1', uid: 'u1', name: 'نورة', av: 'g03', text: 'أحد عدى المرحلة 287؟ 😭', at: new Date(now - 0.1 * H), rep: [] }, { id: 'c2', uid: 'u0', name: 'أبو فهد', av: 'b01', text: 'سهلة بس ركز على الألوان الصغيرة', at: new Date(now - 0.3 * H), rep: [] }, { id: 'c3', uid: 'u6', name: 'Ali K', av: 'cat', text: 'كلام مو زين', at: new Date(now - 2 * H), rep: ['a', 'b', 'c'] }];
+  reports = [{ id: 'r1', type: 'chat', path: 'chat/c3', uid: 'u6', name: 'Ali K', text: 'كلام مو زين', by: 'a', at: new Date(now - H) }, { id: 'r2', type: 'chat', path: 'chat/c3', uid: 'u6', name: 'Ali K', text: 'كلام مو زين', by: 'b', at: new Date(now - H) }];
+  banned = [{ id: 'u7', name: 'مشاري', at: new Date(now - 30 * H) }];
+  texts = { config: { packHint: 10, update: { build: 46 } } };
+  photos = [];
+  act = { photo: async () => null, del: async () => {}, done: async () => {}, ban: async () => {}, unban: async () => {}, rename: async () => {}, loadPhotos: () => {} };
   render();
 } else {
-  const [{ initializeApp }, { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut }, { getFirestore, collection, onSnapshot }] = await Promise.all([
+  const [{ initializeApp }, { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut }, { getFirestore, collection, onSnapshot, query, orderBy, limit, doc, getDoc, getDocs, deleteDoc, setDoc, updateDoc, serverTimestamp }] = await Promise.all([
     import('https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js'),
     import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js'),
     import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'),
@@ -250,6 +496,25 @@ if (DEMO) {
   const auth = getAuth(app), db = getFirestore(app);
   let unsub = [];
   $('#out').onclick = () => signOut(auth);
+  const photoCache = new Map();
+  act = {
+    del: (path) => deleteDoc(doc(db, path)).catch(() => toast('ما قدرنا نمسح')),
+    done: (id) => deleteDoc(doc(db, 'reports', id)).catch(() => {}),
+    ban: (uid, name) => setDoc(doc(db, 'banned', uid), { name: String(name || '').slice(0, 40), at: serverTimestamp() }).catch(() => toast('ما قدرنا نحظر')),
+    unban: (uid) => deleteDoc(doc(db, 'banned', uid)).catch(() => {}),
+    rename: (uid) => updateDoc(doc(db, 'players2', uid), { name: 'لاعب', updated: serverTimestamp() }).catch(() => toast('ما قدرنا نغيّر الاسم')),
+    photo: (uid) => {
+      if (!photoCache.has(uid)) photoCache.set(uid, getDoc(doc(db, 'photos', uid)).then((d) => d.exists() ? 'data:image/jpeg;base64,' + d.data().img : null).catch(() => null));
+      return photoCache.get(uid);
+    },
+    loadPhotos: async () => {
+      try {
+        const s = await getDocs(collection(db, 'photos'));
+        photos = s.docs.map((d) => ({ id: d.id, src: 'data:image/jpeg;base64,' + d.data().img, rep: (d.data().rep || []).length }));
+      } catch { photos = []; }
+      render();
+    },
+  };
 
   const showLogin = (msg) => {
     ready = false;
@@ -266,20 +531,19 @@ if (DEMO) {
     m.append(c);
   };
 
+  const at = (x) => x?.toDate ? x.toDate() : null;
   const listen = () => {
     unsub.forEach((u) => u()); unsub = [];
     for (const c of ['players', 'players2']) {
       unsub.push(onSnapshot(collection(db, c), (s) => {
-        data[c] = s.docs.map((d) => {
-          const x = d.data();
-          return { id: d.id, name: String(x.name ?? '—'), best: Number(x.best ?? 0), updated: x.updated?.toDate ? x.updated.toDate() : null };
-        });
+        data[c] = s.docs.map((d) => { const x = d.data(); return { id: d.id, name: String(x.name ?? '—'), best: Number(x.best ?? 0), av: x.av || 'cat', updated: at(x.updated) }; });
         render();
       }, (e) => { $('#app').replaceChildren(el('div', 'login err', 'ما قدرنا نقرا اللاعبين (' + e.code + ')')); }));
     }
-    unsub.push(onSnapshot(collection(db, 'emails'), (s) => {
-      emails = {}; s.docs.forEach((d) => { emails[d.id] = d.data().email || ''; }); render();
-    }, () => {}));
+    unsub.push(onSnapshot(collection(db, 'emails'), (s) => { emails = {}; s.docs.forEach((d) => { emails[d.id] = d.data().email || ''; }); render(); }, () => {}));
+    unsub.push(onSnapshot(query(collection(db, 'reports'), orderBy('at', 'desc'), limit(150)), (s) => { reports = s.docs.map((d) => ({ id: d.id, ...d.data(), at: at(d.data().at) })); render(); }, () => {}));
+    unsub.push(onSnapshot(collection(db, 'banned'), (s) => { banned = s.docs.map((d) => ({ id: d.id, name: d.data().name || '', at: at(d.data().at) })); render(); }, () => {}));
+    unsub.push(onSnapshot(query(collection(db, 'chat'), orderBy('at', 'desc'), limit(60)), (s) => { chat = s.docs.map((d) => ({ id: d.id, ...d.data(), at: at(d.data().at) })); if (tab === 'chat' || tab === 'nums') render(); }, () => {}));
   };
 
   onAuthStateChanged(auth, (u) => {
@@ -288,6 +552,7 @@ if (DEMO) {
     if (!u) return showLogin();
     if ((u.email || '').toLowerCase() !== ADMIN_EMAIL) { signOut(auth); return showLogin('هذا الحساب مو مسموح له. ادخل بـ ' + ADMIN_EMAIL); }
     listen();
+    if (tab === 'photos') act.loadPhotos();
   });
 }
 </script>
