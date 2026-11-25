@@ -139,6 +139,13 @@
   .msg .del{background:var(--card2);border:0;border-radius:10px;color:var(--ink);padding:7px 9px;font-size:14px}
   .sw{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-weight:800;font-size:14px}
   .sw:last-child{border-bottom:0}
+  .sw .tg{margin-inline-start:auto;width:52px;height:30px;border-radius:15px;border:0;position:relative;background:#5a514a;transition:.2s}
+  .sw .tg.on{background:var(--green)}
+  .sw .tg::after{content:'';position:absolute;top:3px;inset-inline-end:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:.2s}
+  .sw .tg.on::after{inset-inline-end:25px}
+  .sw input.n{margin-inline-start:auto;width:70px;text-align:center;border:1px solid var(--line);border-radius:12px;padding:7px;font-size:16px;font-weight:900;background:var(--card2);color:var(--ink)}
+  textarea.q,input.q2{width:100%;border:1px solid var(--line);border-radius:14px;padding:11px 13px;font-size:15px;margin:6px 0 10px;background:var(--card2);color:var(--ink);font-family:inherit}
+  .card .big{width:100%;margin-top:6px}
   .sw .s{margin-inline-start:auto;border-radius:999px;padding:3px 11px;font-size:12px;font-weight:900}
   .sw .on{background:rgba(61,220,132,.16);color:var(--green)}
   .sw .off{background:rgba(255,90,78,.16);color:var(--red)}
@@ -188,7 +195,7 @@ let board = localStorage.getItem('board') || 'players2';
 let sortBy = localStorage.getItem('sort') || 'recent';
 let data = { players: [], players2: [] }, emails = {}, q = '';
 let reports = [], banned = [], chat = [], photos = null, texts = null;
-let stats = null, act = null, ready = false;
+let stats = null, act = null, ready = false, gcfg = null; // gcfg: settings saved from this page (Firestore config/game)
 fetch('stats.json?v=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((j) => { if (DEMO) return; stats = j; if (ready) render(); }).catch(() => {});
 fetch(SITE + '/texts.json?v=' + Date.now(), { cache: 'no-store' }).then((r) => r.ok ? r.json() : null).then((j) => { if (DEMO) return; texts = j; if (ready) render(); }).catch(() => {});
 
@@ -449,19 +456,47 @@ function photosTab(m) {
 // 🎛️ what is switched on in the game right now (from texts.json on the site)
 function gameTab(m) {
   const c = el('div', 'card'); c.append(el('h3', null, '🎛️ حالة اللعبة الحين'));
-  const cf = texts?.config || {};
+  const cf = { ...(texts?.config || {}), ...(gcfg || {}) };
   const sw = (t, v, def = true) => { const r = el('div', 'sw'); const on = v === undefined ? def : v; r.append(el('span', null, t), el('span', 's ' + (on ? 'on' : 'off'), on ? 'شغّال' : 'طافي')); c.append(r); };
   const info = (t, v) => { const r = el('div', 'sw'); r.append(el('span', null, t), el('span', 's nt', v)); c.append(r); };
-  sw('💬 الشات', cf.chat); sw('🏆 الترتيب', cf.leaderboard); sw('🔐 تسجيل الدخول', cf.signIn); sw('📺 الدعايات', cf.ads);
+  sw('💬 الشات', cf.chat); sw('⚔️ التحدي', cf.duel); sw('🔔 التذكير اليومي', cf.reminder); sw('🏆 الترتيب', cf.leaderboard); sw('🔐 تسجيل الدخول', cf.signIn); sw('📺 الدعايات', cf.ads);
   sw('🛒 المتجر', cf.shop); sw('🎁 مرحلة اليوم', cf.daily); sw('📊 الترتيب بعد كل مرحلة', cf.winRank);
   info('⬆️ نافذة التحديث', cf.update?.build ? 'للي أقدم من ' + cf.update.build : 'طافية');
-  info('💡 باقة العتوي', (cf.packHint ?? 10) + ' 💡');
+  info('💡 باقة العتوي', (cf.packHint ?? 4) + ' 💡'); info('🐟 باقة السمچ', (cf.packFish ?? 6) + ' 🐟'); info('🎁 هدية الأسبوع', (cf.weekGift ?? 1) ? (cf.weekGift ?? 1) + ' 💡' : 'طافية');
   info('🐟 السمچ', String(cf.lives ?? 3));
   info('🎉 الفعالية', texts?.event ? (texts.event.title || 'فيه فعالية') : 'ما في');
   info('🎁 الهدية', texts?.gift ? 'فيه هدية' : 'ما في');
   info('📢 الرسالة', texts?.notice ? 'فيه رسالة' : 'ما في');
   m.append(c);
-  m.append(el('p', 'muted', texts ? 'تغيير أي شي من هذي يصير من texts.json — قول لـ Claude وهو يغيّرها.' : 'ما قدرنا نقرا texts.json'));
+  m.append(el('p', 'muted', texts ? 'الأشياء اللي فوق تقدر تغيّر بعضها من تحت، والباقي قول لـ Claude.' : 'ما قدرنا نقرا texts.json'));
+
+  // ⚙️ settings you can change from here (saved in Firestore config/game — the game reads them when it opens)
+  const e = el('div', 'card'); e.append(el('h3', null, '⚙️ غيّر من هني'));
+  const val = { chat: cf.chat ?? true, duel: cf.duel ?? true, reminder: cf.reminder ?? true, packHint: cf.packHint ?? 4, packFish: cf.packFish ?? 6, weekGift: cf.weekGift ?? 1, reminderText: cf.reminderText || '' };
+  const tg = (t, k) => { const r = el('div', 'sw'); const b = el('button', 'tg' + (val[k] ? ' on' : '')); b.onclick = () => { val[k] = !val[k]; b.classList.toggle('on', val[k]); }; r.append(el('span', null, t), b); e.append(r); };
+  const nb = (t, k, max) => { const r = el('div', 'sw'); const i = el('input', 'n'); i.type = 'number'; i.min = 0; i.max = max; i.value = val[k]; i.oninput = () => { val[k] = Math.max(0, Math.min(max, parseInt(i.value || '0', 10))); }; r.append(el('span', null, t), i); e.append(r); };
+  tg('💬 الشات', 'chat'); tg('⚔️ التحدي', 'duel'); tg('🔔 التذكير اليومي الساعة 6', 'reminder');
+  nb('💡 كم مساعدة بباقة العتوي', 'packHint', 100); nb('🐟 كم سمچة بباقة السمچ', 'packFish', 100); nb('🎁 هدية الأسبوع (💡) — 0 يطفيها', 'weekGift', 20);
+  e.append(el('div', 'muted', 'نص التذكير اليومي (فاضي = الكلام العادي)'));
+  const rt = el('input', 'q2'); rt.maxLength = 90; rt.placeholder = 'تحدي اليوم جاهز 🎁 تقدر تحلها؟'; rt.value = val.reminderText; rt.oninput = () => { val.reminderText = rt.value.trim(); }; e.append(rt);
+  const sv = el('button', 'big', '💾 احفظ'); sv.onclick = async () => { sv.disabled = true; const ok = await act.saveCfg({ ...val, at: new Date().toISOString() }); sv.disabled = false; toast(ok ? 'انحفظ ✅ — يطبّق على اللاعبين لما يفتحون اللعبة' : 'ما انحفظ'); };
+  e.append(sv);
+  e.append(el('p', 'muted', 'الشات والتحدي والباقات تتغير عند اللاعبين أول ما يفتحون اللعبة. الأسعار نفسها تتغير من أبل وقوقل بس.'));
+  m.append(e);
+
+  // 📣 a notification to everyone now
+  const p = el('div', 'card'); p.append(el('h3', null, '📣 أرسل تنبيه لكل اللاعبين'));
+  const pt = el('input', 'q2'); pt.maxLength = 40; pt.placeholder = 'العنوان (مثلاً: عتوي)';
+  const pb = el('textarea', 'q'); pb.rows = 3; pb.maxLength = 150; pb.placeholder = 'الكلام (مثلاً: مراحل جديدة نزلت 🎉)';
+  const ps = el('button', 'big', '📣 أرسل');
+  ps.onclick = async () => {
+    const b = pb.value.trim(); if (!b) return toast('اكتب الكلام أول');
+    if (!confirm('يوصل التنبيه لكل اللاعبين الحين. أكيد؟')) return;
+    ps.disabled = true; const ok = await act.push(pt.value.trim() || 'عتوي', b); ps.disabled = false;
+    toast(ok ? 'انرسل ✅' : 'ما انرسل'); if (ok) { pb.value = ''; }
+  };
+  p.append(pt, pb, ps);
+  m.append(p);
 }
 
 // ------------------------------------------------------------ data
@@ -476,7 +511,7 @@ if (DEMO) {
   banned = [{ id: 'u7', name: 'مشاري', at: new Date(now - 30 * H) }];
   texts = { config: { packHint: 10, update: { build: 46 } } };
   photos = [];
-  act = { photo: async () => null, del: async () => {}, done: async () => {}, ban: async () => {}, unban: async () => {}, rename: async () => {}, loadPhotos: () => {} };
+  act = { photo: async () => null, del: async () => {}, done: async () => {}, ban: async () => {}, unban: async () => {}, rename: async () => {}, loadPhotos: () => {}, saveCfg: async (v) => { gcfg = v; render(); return true; }, push: async () => true };
   render();
 } else {
   const [{ initializeApp }, { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut }, { getFirestore, collection, onSnapshot, query, orderBy, limit, doc, getDoc, getDocs, deleteDoc, setDoc, updateDoc, serverTimestamp }] = await Promise.all([
@@ -484,6 +519,7 @@ if (DEMO) {
     import('https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js'),
     import('https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js'),
   ]);
+  const { getFunctions, httpsCallable } = await import('https://www.gstatic.com/firebasejs/10.12.2/firebase-functions.js');
   const app = initializeApp({
     apiKey: 'AIzaSyAEgJEXvi-qEQJdIZrNZT-bHOlUSQzct4c',
     authDomain: 'atwi-4ae55.firebaseapp.com',
@@ -493,7 +529,7 @@ if (DEMO) {
     appId: '1:1007870140303:web:a0b2a6124d5d43eb6435fa'
   });
   const ADMIN_EMAIL = 'jsmstore.kw@gmail.com';
-  const auth = getAuth(app), db = getFirestore(app);
+  const auth = getAuth(app), db = getFirestore(app), fns = getFunctions(app, 'europe-west1');
   let unsub = [];
   $('#out').onclick = () => signOut(auth);
   const photoCache = new Map();
@@ -507,6 +543,8 @@ if (DEMO) {
       if (!photoCache.has(uid)) photoCache.set(uid, getDoc(doc(db, 'photos', uid)).then((d) => d.exists() ? 'data:image/jpeg;base64,' + d.data().img : null).catch(() => null));
       return photoCache.get(uid);
     },
+    saveCfg: (v) => setDoc(doc(db, 'config', 'game'), v, { merge: true }).then(() => true).catch(() => false),
+    push: (title, body) => httpsCallable(fns, 'broadcast')({ title, body }).then((r) => !!r.data?.ok).catch(() => false),
     loadPhotos: async () => {
       try {
         const s = await getDocs(collection(db, 'photos'));
@@ -542,6 +580,7 @@ if (DEMO) {
     }
     unsub.push(onSnapshot(collection(db, 'emails'), (s) => { emails = {}; s.docs.forEach((d) => { emails[d.id] = d.data().email || ''; }); render(); }, () => {}));
     unsub.push(onSnapshot(query(collection(db, 'reports'), orderBy('at', 'desc'), limit(150)), (s) => { reports = s.docs.map((d) => ({ id: d.id, ...d.data(), at: at(d.data().at) })); render(); }, () => {}));
+    unsub.push(onSnapshot(doc(db, 'config', 'game'), (d) => { gcfg = d.exists() ? d.data() : null; if (tab === 'game') render(); }, () => {}));
     unsub.push(onSnapshot(collection(db, 'banned'), (s) => { banned = s.docs.map((d) => ({ id: d.id, name: d.data().name || '', at: at(d.data().at) })); render(); }, () => {}));
     unsub.push(onSnapshot(query(collection(db, 'chat'), orderBy('at', 'desc'), limit(60)), (s) => { chat = s.docs.map((d) => ({ id: d.id, ...d.data(), at: at(d.data().at) })); if (tab === 'chat' || tab === 'nums') render(); }, () => {}));
   };
