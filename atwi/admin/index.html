@@ -470,6 +470,19 @@ function gameTab(m) {
   m.append(c);
   m.append(el('p', 'muted', texts ? 'الأشياء اللي فوق تقدر تغيّر بعضها من تحت، والباقي قول لـ Claude.' : 'ما قدرنا نقرا texts.json'));
 
+  // 💰 earnings — open each store's earnings page (real numbers live there)
+  const mo = el('div', 'card'); mo.append(el('h3', null, '💰 أرباحي'));
+  mo.append(el('p', 'muted', 'اضغط وتفتح لك صفحة الأرباح على طول. لازم تكون مسجل دخول بحساب jsmapps.'));
+  [['📺 الدعايات (AdMob)', 'https://apps.admob.com/v2/home'],
+   ['🤖 باقات أندرويد (Google Play)', 'https://play.google.com/console/u/1/developers/6613421921818910960/app/4974549300222718360/reporting/finance/revenue'],
+   ['🍎 باقات آيفون — المبيعات (App Store)', 'https://appstoreconnect.apple.com/trends'],
+   ['🍎 فلوس أبل اللي بتوصلك', 'https://appstoreconnect.apple.com/itc/payments_and_financial_reports'],
+   ['🏦 فلوس قوقل اللي بتوصلك', 'https://payments.google.com/']].forEach(([t, u]) => {
+    const a = el('a', 'big', t); a.href = u; a.target = '_blank'; a.rel = 'noopener';
+    a.style.cssText = 'display:block;text-align:center;text-decoration:none;margin-top:8px'; mo.append(a);
+  });
+  m.append(mo);
+
   // ⚙️ settings you can change from here (saved in Firestore config/game — the game reads them when it opens)
   const e = el('div', 'card'); e.append(el('h3', null, '⚙️ غيّر من هني'));
   const val = { chat: cf.chat ?? true, duel: cf.duel ?? true, reminder: cf.reminder ?? true, packHint: cf.packHint ?? 4, packFish: cf.packFish ?? 6, weekGift: cf.weekGift ?? 1, adEvery: cf.adEvery ?? 5, reminderText: cf.reminderText || '' };
