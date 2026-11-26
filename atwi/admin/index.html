@@ -497,6 +497,25 @@ function gameTab(m) {
   };
   p.append(pt, pb, ps);
   m.append(p);
+
+  // 🆕 «شنو الجديد» — shows once after players update to this build (2.1.2+)
+  const nw = cf.news || {};
+  const nwc = el('div', 'card'); nwc.append(el('h3', null, '🆕 رسالة «شنو الجديد» بعد التحديث'));
+  nwc.append(el('p', 'muted', 'تطلع مرة وحدة للاعب اللي حدّث اللعبة لهالنسخة أو أجدد. لا تحط شي إذا التحديث تصليح بس.'));
+  const nwb = el('input', 'q2'); nwb.type = 'number'; nwb.placeholder = 'رقم النسخة (مثلاً 58)'; nwb.value = nw.build || '';
+  const nwt = el('input', 'q2'); nwt.maxLength = 40; nwt.placeholder = 'العنوان (مثلاً: شنو الجديد؟ 🎉)'; nwt.value = nw.title || '';
+  const nwx = el('textarea', 'q'); nwx.rows = 6; nwx.maxLength = 600; nwx.placeholder = 'الميزات الجديدة، كل وحدة بسطر'; nwx.value = nw.text || '';
+  const nws = el('button', 'big', '💾 احفظ الرسالة');
+  nws.onclick = async () => {
+    const bnum = parseInt(nwb.value, 10), t = nwx.value.trim();
+    if (!bnum || !t) return toast('حط رقم النسخة والكلام');
+    nws.disabled = true; const ok = await act.saveCfg({ news: { build: bnum, title: nwt.value.trim(), text: t } }); nws.disabled = false;
+    toast(ok ? 'انحفظت ✅' : 'ما انحفظت');
+  };
+  const nwd = el('button', 'big', '🗑️ شيل الرسالة'); nwd.style.marginTop = '8px';
+  nwd.onclick = async () => { if (!confirm('أشيلها؟')) return; const ok = await act.saveCfg({ news: null }); toast(ok ? 'انشالت' : 'ما انشالت'); };
+  nwc.append(nwb, nwt, nwx, nws, nwd);
+  m.append(nwc);
 }
 
 // ------------------------------------------------------------ data
