@@ -472,11 +472,11 @@ function gameTab(m) {
 
   // ⚙️ settings you can change from here (saved in Firestore config/game — the game reads them when it opens)
   const e = el('div', 'card'); e.append(el('h3', null, '⚙️ غيّر من هني'));
-  const val = { chat: cf.chat ?? true, duel: cf.duel ?? true, reminder: cf.reminder ?? true, packHint: cf.packHint ?? 4, packFish: cf.packFish ?? 6, weekGift: cf.weekGift ?? 1, reminderText: cf.reminderText || '' };
+  const val = { chat: cf.chat ?? true, duel: cf.duel ?? true, reminder: cf.reminder ?? true, packHint: cf.packHint ?? 4, packFish: cf.packFish ?? 6, weekGift: cf.weekGift ?? 1, adEvery: cf.adEvery ?? 5, reminderText: cf.reminderText || '' };
   const tg = (t, k) => { const r = el('div', 'sw'); const b = el('button', 'tg' + (val[k] ? ' on' : '')); b.onclick = () => { val[k] = !val[k]; b.classList.toggle('on', val[k]); }; r.append(el('span', null, t), b); e.append(r); };
   const nb = (t, k, max) => { const r = el('div', 'sw'); const i = el('input', 'n'); i.type = 'number'; i.min = 0; i.max = max; i.value = val[k]; i.oninput = () => { val[k] = Math.max(0, Math.min(max, parseInt(i.value || '0', 10))); }; r.append(el('span', null, t), i); e.append(r); };
   tg('💬 الشات', 'chat'); tg('⚔️ التحدي', 'duel'); tg('🔔 التذكير اليومي الساعة 6', 'reminder');
-  nb('💡 كم مساعدة بباقة العتوي', 'packHint', 100); nb('🐟 كم سمچة بباقة السمچ', 'packFish', 100); nb('🎁 هدية الأسبوع (💡) — 0 يطفيها', 'weekGift', 20);
+  nb('💡 كم مساعدة بباقة العتوي', 'packHint', 100); nb('🐟 كم سمچة بباقة السمچ', 'packFish', 100); nb('🎁 هدية الأسبوع (💡) — 0 يطفيها', 'weekGift', 20); nb('📺 دعاية بين المراحل كل كم مرحلة — 0 يطفيها', 'adEvery', 50);
   e.append(el('div', 'muted', 'نص التذكير اليومي (فاضي = الكلام العادي)'));
   const rt = el('input', 'q2'); rt.maxLength = 90; rt.placeholder = 'تحدي اليوم جاهز 🎁 تقدر تحلها؟'; rt.value = val.reminderText; rt.oninput = () => { val.reminderText = rt.value.trim(); }; e.append(rt);
   const sv = el('button', 'big', '💾 احفظ'); sv.onclick = async () => { sv.disabled = true; const ok = await act.saveCfg({ ...val, at: new Date().toISOString() }); sv.disabled = false; toast(ok ? 'انحفظ ✅ — يطبّق على اللاعبين لما يفتحون اللعبة' : 'ما انحفظ'); };
