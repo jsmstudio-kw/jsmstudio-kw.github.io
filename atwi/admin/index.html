@@ -290,6 +290,9 @@ function nums(m) {
   buckets.forEach(([a, b], i) => { const r = el('div', 'hrow'); const t = el('div', 't'); const f = el('i'); f.style.width = (bc[i] / bm * 100) + '%'; t.append(f); r.append(el('div', 'k', b > 2100 ? a + '+' : a + '–' + b), t, el('div', 'v', String(bc[i]))); c2.append(r); });
   m.append(c2);
 
+  // 2.1.3 💰 live sales + 📈 players per day (from the server: admin function)
+  m.append(liveCards());
+
   // top 5
   const c3 = el('div', 'card'); c3.append(el('h3', null, '🥇 أول 5'));
   list.slice().sort((a, b) => b.best - a.best).slice(0, 5).forEach((p, i) => c3.append(playerRow(p, i + 1)));
@@ -336,6 +339,55 @@ function sheet(p) {
   else btn('⛔ احظره من الشات', 'red', async () => { if (confirm('تحظر «' + p.name + '» من الشات؟')) { await act.ban(p.id, p.name); toast('انحظر ✅'); } });
   s.append(acts);
   document.body.append(bg);
+}
+
+// ------------------------------------------------------------ 2.1.3 server data (sales / stats / codes)
+let adm = null, admBusy = false;
+function loadAdm() {
+  if (admBusy || DEMO) return; admBusy = true;
+  act.admin({}).then((d) => { adm = d || { sales: [], stats: [], codes: [] }; admBusy = false; render(); }).catch(() => { admBusy = false; adm = { sales: [], stats: [], codes: [], err: true }; render(); });
+}
+const PNAME = { atwi_helpers: '💡 باقة العتوي', atwi_fish: '🐟 باقة السمچ', atwi_noads: '🚫 بدون دعايات' };
+function liveCards() {
+  const wrap = el('div');
+  if (!adm) { loadAdm(); wrap.append(el('div', 'card center muted', '…قاعد نجيب المبيعات')); return wrap; }
+  // 💰 sales
+  const c = el('div', 'card'); const h = el('h3', null, '💰 المبيعات — مباشر'); h.append(el('small', null, 'من داخل اللعبة (2.1.3+)')); c.append(h);
+  const now = new Date(), today = day(now);
+  const mStart = new Date(now.getFullYear(), now.getMonth(), 1);
+  const sales = (adm.sales || []).map((x) => ({ ...x, at: new Date(x.at) }));
+  const tdy = sales.filter((x) => day(x.at) === today), mon = sales.filter((x) => x.at >= mStart);
+  const sum = (arr) => { const t = {}; arr.forEach((x) => { t[x.cur || '?'] = (t[x.cur || '?'] || 0) + (x.price || 0); }); return Object.entries(t).map(([k, v]) => v.toFixed(2) + ' ' + k).join(' + ') || '0'; };
+  const kv = (k, v) => { const r = el('div', 'sw'); r.append(el('span', null, k), el('b', null, v)); c.append(r); };
+  kv('اليوم', tdy.length + ' عملية شرا — ' + sum(tdy));
+  kv('هالشهر', mon.length + ' عملية شرا — ' + sum(mon));
+  const by = {}; mon.forEach((x) => { by[x.p] = (by[x.p] || 0) + 1; });
+  Object.entries(by).sort((a, b) => b[1] - a[1]).forEach(([k, v]) => kv('  ' + (PNAME[k] || (k.startsWith('atwi_av_') ? '🖼️ صورة' : k)), v + ' مرة'));
+  c.append(el('p', 'muted', 'المبلغ تقريبي قبل ما تاخذ أبل وقوقل نسبتهم (15%). الأرقام الرسمية من زر «💰 أرباحي» في 🎛️ اللعبة.'));
+  if (sales.length) {
+    const ls = el('div'); sales.slice(0, 8).forEach((x) => { const r = el('div', 'sw'); r.append(el('span', null, (PNAME[x.p] || x.p) + (x.plat === 'ios' ? ' 🍎' : ' 🤖')), el('span', 'muted', x.price + ' ' + x.cur + ' · ' + ago(x.at))); ls.append(r); }); c.append(ls);
+  }
+  wrap.append(c);
+  // 📈 players per day
+  const g = el('div', 'card'); g.append(el('h3', null, '📈 اللاعبين كل يوم'));
+  const st = (adm.stats || []).slice().reverse().slice(-30);
+  if (!st.length) g.append(el('p', 'muted', 'يبدأ يتسجل من الليلة (الساعة 11:55 كل يوم). بكرة تشوف أول عمود.'));
+  else {
+    const mx = Math.max(1, ...st.map((x) => x.active || 0));
+    const ch = el('div'); ch.style.cssText = 'display:flex;align-items:flex-end;gap:4px;height:150px;direction:ltr;padding-top:18px';
+    st.forEach((x) => {
+      const col = el('div'); col.style.cssText = 'flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0';
+      const v = el('div', null, String(x.active || 0)); v.style.cssText = 'font-size:10px;font-weight:800';
+      const bar = el('div'); bar.style.cssText = 'width:100%;border-radius:5px 5px 0 0;background:var(--gold);height:' + Math.max(3, (x.active || 0) / mx * 110) + 'px';
+      const lb = el('div', null, x.day.slice(8) + '/' + x.day.slice(5, 7)); lb.style.cssText = 'font-size:9px;color:var(--muted);margin-top:3px';
+      col.append(v, bar, lb); ch.append(col);
+    });
+    g.append(ch);
+    const last = st[st.length - 1]; g.append(el('p', 'muted', 'كل عمود = كم لاعب لعب ذاك اليوم (من المسجلين). كل اللاعبين المسجلين: ' + (last.total || 0)));
+  }
+  wrap.append(g);
+  const rf = el('button', 'big', '🔄 حدّث'); rf.onclick = () => { adm = null; render(); }; rf.style.marginBottom = '12px'; wrap.append(rf);
+  return wrap;
 }
 
 // 👥 players
@@ -385,6 +437,8 @@ function playersTab(m) {
 // 💬 the public room, live
 function chatTab(m) {
   const h = el('h2', null, '💬 الشات العام — مباشر'); h.append(el('span', 'n', String(chat.length))); m.append(h);
+  if (chat.length) { const cl = el('button', 'big', '🧹 امسح الشات العام كله'); cl.style.cssText = 'width:100%;margin-bottom:12px;background:#E0453A;color:#fff';
+    cl.onclick = async () => { if (!confirm('تمسح كل رسايل الشات العام؟ ما ترجع.')) return; cl.disabled = true; const n = await act.clearChat(); toast('انمسحت ' + n + ' رسالة ✅'); }; m.append(cl); }
   if (!chat.length) m.append(el('div', 'center muted', 'محد كتب للحين'));
   for (const c of chat) {
     const r = el('div', 'msg');
@@ -508,8 +562,77 @@ function gameTab(m) {
     ps.disabled = true; const ok = await act.push(pt.value.trim() || 'عتوي', b); ps.disabled = false;
     toast(ok ? 'انرسل ✅' : 'ما انرسل'); if (ok) { pb.value = ''; }
   };
-  p.append(pt, pb, ps);
+  // ⏰ planned for later (config/game.sched — the server sends it, checks every 10 minutes)
+  const pw = el('input', 'q2'); pw.type = 'datetime-local';
+  const pl = el('button', 'big', '⏰ أرسله بهالوقت'); pl.style.marginTop = '8px';
+  pl.onclick = async () => {
+    const b = pb.value.trim(); if (!b) return toast('اكتب الكلام أول'); if (!pw.value) return toast('اختار الوقت');
+    const at = new Date(pw.value); if (!(at > new Date())) return toast('الوقت لازم يكون بعدين');
+    const list = (Array.isArray(cf.sched) ? cf.sched : []).concat([{ id: String(Date.now()), at: at.toISOString(), title: pt.value.trim() || 'عتوي', body: b }]);
+    pl.disabled = true; const ok = await act.saveCfg({ sched: list }); pl.disabled = false;
+    toast(ok ? 'انحفظ ⏰ ويوصل بوقته' : 'ما انحفظ'); if (ok) pb.value = '';
+  };
+  p.append(pt, pb, ps, el('div', 'muted', 'أو اختار وقت ويوصل بروحه:'), pw, pl);
+  (Array.isArray(cf.sched) ? cf.sched : []).forEach((x) => {
+    const r = el('div', 'sw'); r.append(el('span', null, '⏰ ' + new Date(x.at).toLocaleString('ar-KW', { dateStyle: 'short', timeStyle: 'short' }) + ' — ' + String(x.body).slice(0, 40)));
+    const d = el('button', 'del', '🗑️'); d.onclick = async () => { await act.saveCfg({ sched: cf.sched.filter((y) => y.id !== x.id) }); toast('انشال'); }; r.append(d); p.append(r);
+  });
   m.append(p);
+
+  // 🎁 gift codes (made by the server, the game checks them)
+  const gc = el('div', 'card'); gc.append(el('h3', null, '🎁 أكواد الهدايا'));
+  gc.append(el('p', 'muted', 'سوّ كود (مثلاً ATWI10) وانشره بالإنستقرام. اللاعب يكتبه من ⚙️ في اللعبة (2.1.3+) وياخذ الهدية مرة وحدة بس.'));
+  const gcc = el('input', 'q2'); gcc.placeholder = 'الكود بالإنجليزي (مثلاً ATWI10)'; gcc.maxLength = 20; gcc.style.textTransform = 'uppercase';
+  const gnum = (ph) => { const i = el('input', 'q2'); i.type = 'number'; i.min = 0; i.placeholder = ph; return i; };
+  const gch = gnum('كم 💡'), gcf = gnum('كم 🐟'), gcm = gnum('كم واحد يقدر يستخدمه (0 = بدون حد)');
+  const gcu = el('input', 'q2'); gcu.type = 'date'; gcu.title = 'آخر يوم (اختياري)';
+  const gcs = el('button', 'big', '🎁 سوّ الكود');
+  gcs.onclick = async () => {
+    const code = gcc.value.trim().toUpperCase(); if (!/^[A-Z0-9_-]{3,20}$/.test(code)) return toast('الكود حروف إنجليزي وأرقام (3 وفوق)');
+    if (!(+gch.value > 0 || +gcf.value > 0)) return toast('حط هدية (💡 أو 🐟)');
+    gcs.disabled = true;
+    try { await act.admin({ op: 'code', code, hint: +gch.value || 0, fish: +gcf.value || 0, max: +gcm.value || 0, until: gcu.value || '' }); toast('انسوى ✅ ' + code); adm = null; render(); }
+    catch { toast('ما انسوى'); gcs.disabled = false; }
+  };
+  gc.append(gcc, gch, gcf, gcm, el('div', 'muted', 'آخر يوم للكود (اختياري):'), gcu, gcs);
+  if (!adm) loadAdm();
+  (adm?.codes || []).forEach((x) => {
+    const r = el('div', 'sw');
+    r.append(el('span', null, (x.on ? '🟢 ' : '⚪ ') + x.code + ' — ' + [x.hint ? '+' + x.hint + ' 💡' : '', x.fish ? '+' + x.fish + ' 🐟' : ''].join(' ') + ' · استخدموه ' + x.used + (x.max ? '/' + x.max : '') + (x.until ? ' · لين ' + x.until : '')));
+    if (x.on) { const d = el('button', 'del', '⛔'); d.title = 'وقّفه'; d.onclick = async () => { if (!confirm('توقف الكود ' + x.code + '؟')) return; try { await act.admin({ op: 'codeOff', code: x.code }); } catch {} adm = null; render(); }; r.append(d); }
+    gc.append(r);
+  });
+  m.append(gc);
+
+  // 🎉 boost: double rewards for a while
+  const bo = cf.boost || {};
+  const bc = el('div', 'card'); bc.append(el('h3', null, '🎉 حدث خاص — جوايز دبل'));
+  bc.append(el('p', 'muted', 'خلال هالأيام: جايزة التحدي اليومي، تحدي الوقت والأذكياء، هدية الأسبوع، والمساعدة من الدعاية تصير ×2 (أو ×3). ويطلع شريط فوق اللعبة (2.1.3+).'));
+  const bx = el('select', 'q2'); bx.style.cssText = 'width:100%;padding:12px;border-radius:12px;font-size:16px;margin-bottom:8px'; [['2', '×2 دبل'], ['3', '×3']].forEach(([v, t]) => { const o = el('option', null, t); o.value = v; if (String(bo.x || 2) === v) o.selected = true; bx.append(o); });
+  const bf = el('input', 'q2'); bf.type = 'date'; bf.value = bo.from || '';
+  const bt = el('input', 'q2'); bt.type = 'date'; bt.value = bo.to || '';
+  const btt = el('input', 'q2'); btt.maxLength = 60; btt.placeholder = 'الكلام بالشريط (مثلاً: ويكند السمچ الدبل 🐟🐟)'; btt.value = bo.title || '';
+  const bs = el('button', 'big', '💾 شغّل الحدث');
+  bs.onclick = async () => { if (!bf.value || !bt.value) return toast('اختار من يوم لين يوم'); bs.disabled = true; const ok = await act.saveCfg({ boost: { x: +bx.value, from: bf.value, to: bt.value, title: btt.value.trim() } }); bs.disabled = false; toast(ok ? 'انحفظ ✅' : 'ما انحفظ'); };
+  const bd = el('button', 'big', '⛔ وقّف الحدث'); bd.style.marginTop = '8px';
+  bd.onclick = async () => { const ok = await act.saveCfg({ boost: null }); toast(ok ? 'وقف' : 'ما وقف'); };
+  bc.append(bx, el('div', 'muted', 'من يوم:'), bf, el('div', 'muted', 'لين يوم:'), bt, btt, bs, bd);
+  if (bo.x) bc.append(el('p', 'muted', 'الحين: ×' + bo.x + ' من ' + bo.from + ' لين ' + bo.to));
+  m.append(bc);
+
+  // 📢 banner at the top of the game
+  const ba = cf.banner || {};
+  const bn = el('div', 'card'); bn.append(el('h3', null, '📢 شريط فوق اللعبة'));
+  bn.append(el('p', 'muted', 'يطلع للاعبين فوق الشاشة لين يسكرونه بـ ✕ (2.1.3+). الأيام اختيارية.'));
+  const bnt = el('textarea', 'q'); bnt.rows = 2; bnt.maxLength = 120; bnt.placeholder = 'مثلاً: تابعونا بالإنستقرام 😼'; bnt.value = ba.text || '';
+  const bnf = el('input', 'q2'); bnf.type = 'date'; bnf.value = ba.from || '';
+  const bnto = el('input', 'q2'); bnto.type = 'date'; bnto.value = ba.to || '';
+  const bns = el('button', 'big', '💾 احفظ الشريط');
+  bns.onclick = async () => { const t = bnt.value.trim(); if (!t) return toast('اكتب الكلام'); bns.disabled = true; const ok = await act.saveCfg({ banner: { text: t, from: bnf.value || '', to: bnto.value || '' } }); bns.disabled = false; toast(ok ? 'انحفظ ✅' : 'ما انحفظ'); };
+  const bnd = el('button', 'big', '🗑️ شيل الشريط'); bnd.style.marginTop = '8px';
+  bnd.onclick = async () => { const ok = await act.saveCfg({ banner: null }); toast(ok ? 'انشال' : 'ما انشال'); };
+  bn.append(bnt, el('div', 'muted', 'من يوم (اختياري):'), bnf, el('div', 'muted', 'لين يوم (اختياري):'), bnto, bns, bnd);
+  m.append(bn);
 
   // 🆕 «شنو الجديد» — shows once after players update to this build (2.1.2+)
   const nw = cf.news || {};
@@ -543,7 +666,7 @@ if (DEMO) {
   banned = [{ id: 'u7', name: 'مشاري', at: new Date(now - 30 * H) }];
   texts = { config: { packHint: 10, update: { build: 46 } } };
   photos = [];
-  act = { photo: async () => null, del: async () => {}, done: async () => {}, ban: async () => {}, unban: async () => {}, rename: async () => {}, loadPhotos: () => {}, saveCfg: async (v) => { gcfg = v; render(); return true; }, push: async () => true };
+  act = { photo: async () => null, del: async () => {}, done: async () => {}, ban: async () => {}, unban: async () => {}, rename: async () => {}, loadPhotos: () => {}, saveCfg: async (v) => { gcfg = v; render(); return true; }, push: async () => true, admin: async () => ({ sales: [], stats: [], codes: [] }), clearChat: async () => 0 };
   render();
 } else {
   const [{ initializeApp }, { getAuth, onAuthStateChanged, GoogleAuthProvider, signInWithPopup, signOut }, { getFirestore, collection, onSnapshot, query, orderBy, limit, doc, getDoc, getDocs, deleteDoc, setDoc, updateDoc, serverTimestamp }] = await Promise.all([
@@ -577,6 +700,8 @@ if (DEMO) {
     },
     saveCfg: (v) => setDoc(doc(db, 'config', 'game'), v, { merge: true }).then(() => true).catch(() => false),
     push: (title, body) => httpsCallable(fns, 'broadcast')({ title, body }).then((r) => !!r.data?.ok).catch(() => false),
+    admin: (d) => httpsCallable(fns, 'admin')(d).then((r) => r.data),
+    clearChat: async () => { let n = 0; try { const s = await getDocs(collection(db, 'chat')); for (const d of s.docs) { await deleteDoc(d.ref).then(() => n++).catch(() => {}); } } catch {} return n; },
     loadPhotos: async () => {
       try {
         const s = await getDocs(collection(db, 'photos'));
